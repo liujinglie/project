@@ -1,30 +1,30 @@
 import itertools
 
-def is_clique(graph, nodes):
+def a(graph, nodes):
     for u in nodes:
         for v in nodes:
             if u != v and not graph[u][v]:
                 return False
     return True
 
-def contains_clique(graph, m):
+def b(graph, m):
     n = len(graph)
     for nodes in itertools.combinations(range(n), m):
-        if is_clique(graph, nodes):
+        if a(graph, nodes):
             return True
     return False
 
-def is_independent_set(graph, nodes):
+def c(graph, nodes):
     for u in nodes:
         for v in nodes:
             if u != v and graph[u][v]:
                 return False
     return True
 
-def contains_independent_set(graph, n):
+def d(graph, n):
     num_nodes = len(graph)
     for nodes in itertools.combinations(range(num_nodes), n):
-        if is_independent_set(graph, nodes):
+        if c(graph, nodes):
             return True
     return False
 
@@ -37,13 +37,14 @@ def is_ramsey_number(V, m, n):
                 graph[i][j] = graph[j][i] = edges[edge_index]
                 edge_index += 1
 
-        if not contains_clique(graph, m) and not contains_independent_set(graph, n):
+        if not b(graph, m) and not d(graph, n):
             return False
     return True
 
 def ramsey_number(m, n):
-    V = 1
-    while True:
+    V = max(m, n)
+    limit = 18 
+    while V <= limit:
         if is_ramsey_number(V, m, n):
             return V
         V += 1
